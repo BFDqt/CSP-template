@@ -25,12 +25,14 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
+    // 改这里：n<=10 才能枚举全排列
     vector<int> p(n);
+    // 从 1..n 的初始排列开始
     iota(p.begin(), p.end(), 1);
     int cnt = 0;
     do {
         cnt++;
-        // TODO: 检查当前排列
+        // 改这里：检查当前排列
     } while (next_permutation(p.begin(), p.end()));
     cout << cnt << "\n";
     return 0;

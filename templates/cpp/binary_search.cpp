@@ -28,14 +28,18 @@ int main() {
     int n;
     ll target;
     if (!(cin >> n >> target)) return 0;
+    // 改这里：target 为目标值
     vector<ll> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
+    // 数组必须是有序的（升序）
     int l = 0, r = n - 1;
     while (l < r) {
         int mid = l + (r - l) / 2;
+        // 找第一个 >= target 的位置
         if (a[mid] >= target) r = mid;
         else l = mid + 1;
     }
+    // 未找到时输出 -1
     if (n == 0 || a[l] < target) cout << -1 << "\n";
     else cout << (l + 1) << "\n";
     return 0;

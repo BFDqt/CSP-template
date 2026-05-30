@@ -30,10 +30,12 @@ struct Fenwick {
     Fenwick(int n = 0) { init(n); }
     void init(int n_) { n = n_; bit.assign(n + 1, 0); }
     void add(int idx, ll val) {
+        // 单点加：往上更新
         for (; idx <= n; idx += idx & -idx) bit[idx] += val;
     }
     ll sumPrefix(int idx) {
         ll res = 0;
+        // 前缀和：往上跳
         for (; idx > 0; idx -= idx & -idx) res += bit[idx];
         return res;
     }
@@ -46,18 +48,23 @@ int main() {
 
     int n, q;
     if (!(cin >> n >> q)) return 0;
+    // 改这里：数组大小 n，操作数量 q
     Fenwick fw(n);
     for (int i = 1; i <= n; i++) {
         ll x; cin >> x;
+        // 建树：逐点加入
         fw.add(i, x);
     }
     while (q--) {
         int op; cin >> op;
+        // 改这里：操作类型定义
         if (op == 1) {
             int idx; ll delta; cin >> idx >> delta;
+            // 单点加
             fw.add(idx, delta);
         } else {
             int l, r; cin >> l >> r;
+            // 区间和
             cout << fw.rangeSum(l, r) << "\n";
         }
     }

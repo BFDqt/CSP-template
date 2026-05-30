@@ -30,16 +30,20 @@ int main() {
 
     int n, m, q;
     if (!(cin >> n >> m >> q)) return 0;
+    // 改这里：n 行 m 列，q 次查询
+    // pre[i][j] 表示子矩阵 (1,1)-(i,j) 的和
     vector<vector<ll>> pre(n + 1, vector<ll>(m + 1, 0));
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= m; j++) {
             ll x; cin >> x;
+            // 经典二维前缀和公式
             pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1] + x;
         }
     }
     while (q--) {
         int x1, y1, x2, y2;
         cin >> x1 >> y1 >> x2 >> y2;
+        // 子矩阵和 = 四块前缀相减
         ll ans = pre[x2][y2] - pre[x1 - 1][y2] - pre[x2][y1 - 1] + pre[x1 - 1][y1 - 1];
         cout << ans << "\n";
     }

@@ -49,20 +49,24 @@ int main() {
 
     int n, m;
     if (!(cin >> n >> m)) return 0;
+    // 改这里：若是有向图需先转无向
     vector<Edge> edges(m);
     for (int i = 0; i < m; i++) {
         cin >> edges[i].u >> edges[i].v >> edges[i].w;
     }
+    // 按边权排序
     sort(edges.begin(), edges.end());
     DSU dsu(n);
     ll total = 0;
     int used = 0;
     for (auto &e : edges) {
+        // 能连通就选这条边
         if (dsu.unite(e.u, e.v)) {
             total += e.w;
             used++;
         }
     }
+    // 若未连通则无生成树
     if (used != n - 1) cout << -1 << "\n";
     else cout << total << "\n";
     return 0;

@@ -32,13 +32,16 @@ int main() {
 
     string s;
     if (!(cin >> s)) return 0;
+    // 改这里：字符串输入方式（可能含空格）
     int n = (int)s.size();
+    // h[i]：前 i 个字符的哈希值，p[i]：BASE^i
     vector<ll> h(n + 1, 0), p(n + 1, 1);
     for (int i = 1; i <= n; i++) {
         h[i] = (h[i - 1] * BASE + s[i - 1]) % MOD;
         p[i] = (p[i - 1] * BASE) % MOD;
     }
     auto get = [&](int l, int r) {
+        // 取子串 [l,r] 的哈希
         ll res = (h[r] - h[l - 1] * p[r - l + 1]) % MOD;
         if (res < 0) res += MOD;
         return res;
@@ -48,6 +51,7 @@ int main() {
     cin >> q;
     while (q--) {
         int l, r; cin >> l >> r;
+        // 改这里：l,r 是否 1-based
         cout << get(l, r) << "\n";
     }
     return 0;

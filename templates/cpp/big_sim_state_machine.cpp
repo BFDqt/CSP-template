@@ -34,9 +34,11 @@ int main() {
     int q;
     if (!(cin >> q)) return 0;
     const int CLOSED = 0, OPEN = 1, LOCKED = 2;
+    // 初始状态
     int state = CLOSED;
     while (q--) {
         string cmd; cin >> cmd;
+        // 根据命令进行状态转移
         if (cmd == "OPEN") {
             if (state == CLOSED) { state = OPEN; cout << "OK\n"; }
             else cout << "DENY\n";

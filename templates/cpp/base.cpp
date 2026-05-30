@@ -23,6 +23,8 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    // TODO: 读入与计算
+    // TODO: 读入数据（cin >> n >> ...）
+    // TODO: 计算答案
+    // TODO: 输出结果（cout << ans << "\n"）
     return 0;
 }

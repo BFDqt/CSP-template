@@ -28,12 +28,15 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
+    // 改这里：n<=20 才能用状压
     vector<vector<ll>> w(n, vector<ll>(n));
     for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) cin >> w[i][j];
 
     const ll INF = (1LL << 60);
     int N = 1 << n;
+    // dp[mask][u]：走到 u，已访问集合为 mask 的最小代价
     vector<vector<ll>> dp(N, vector<ll>(n, INF));
+    // 从 0 号点出发
     dp[1][0] = 0;
     for (int mask = 1; mask < N; mask++) {
         for (int u = 0; u < n; u++) {
@@ -42,12 +45,14 @@ int main() {
             for (int v = 0; v < n; v++) {
                 if (mask & (1 << v)) continue;
                 int nmask = mask | (1 << v);
+                // 从 u 走到 v
                 dp[nmask][v] = min(dp[nmask][v], dp[mask][u] + w[u][v]);
             }
         }
     }
     ll ans = INF;
     for (int i = 0; i < n; i++) ans = min(ans, dp[N - 1][i]);
+    // 改这里：是否需要回到起点
     cout << ans << "\n";
     return 0;
 }

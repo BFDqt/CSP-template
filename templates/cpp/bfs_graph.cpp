@@ -28,18 +28,22 @@ int main() {
 
     int n, m, s;
     if (!(cin >> n >> m >> s)) return 0;
+    // 改这里：起点 s
     vector<vector<int>> g(n + 1);
     for (int i = 0; i < m; i++) {
         int u, v; cin >> u >> v;
+        // 无向图：双向加边
         g[u].push_back(v);
         g[v].push_back(u);
     }
+    // dist = -1 表示未访问
     vector<int> dist(n + 1, -1);
     queue<int> q;
     q.push(s);
     dist[s] = 0;
     while (!q.empty()) {
         int u = q.front(); q.pop();
+        // 扩展当前点的所有邻居
         for (int v : g[u]) if (dist[v] == -1) {
             dist[v] = dist[u] + 1;
             q.push(v);

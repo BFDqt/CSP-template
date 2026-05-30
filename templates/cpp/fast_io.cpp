@@ -26,6 +26,7 @@ struct FastScanner {
     char buf[BUFSIZE];
     FastScanner() : idx(0), size(0) {}
 
+    // 从缓冲区读取一个字符
     inline char read() {
         if (idx >= size) {
             size = (int)fread(buf, 1, BUFSIZE, stdin);
@@ -38,6 +39,7 @@ struct FastScanner {
     bool nextLong(ll &out) {
         char c = read();
         if (!c) return false;
+        // 跳过非数字字符
         while (c != '-' && (c < '0' || c > '9')) {
             c = read();
             if (!c) return false;
@@ -45,6 +47,7 @@ struct FastScanner {
         ll sign = 1;
         if (c == '-') { sign = -1; c = read(); }
         ll val = 0;
+        // 读取连续数字
         while (c >= '0' && c <= '9') {
             val = val * 10 + (c - '0');
             c = read();
@@ -53,6 +56,7 @@ struct FastScanner {
         return true;
     }
 
+    // 读取一个不含空格的字符串
     bool nextString(string &s) {
         char c = read();
         if (!c) return false;
@@ -76,6 +80,7 @@ struct FastOutput {
     FastOutput() : idx(0) {}
     ~FastOutput() { flush(); }
 
+    // 刷新输出缓冲区
     void flush() {
         if (idx) {
             fwrite(buf, 1, idx, stdout);
@@ -88,6 +93,7 @@ struct FastOutput {
         buf[idx++] = c;
     }
 
+    // 输出一个 long long
     void writeLong(ll x, char end = '\n') {
         if (x == 0) {
             pushChar('0');
@@ -115,6 +121,7 @@ int main() {
         fs.nextLong(x);
         sum += x;
     }
+    // 输出计算结果
     fo.writeLong(sum);
     return 0;
 }

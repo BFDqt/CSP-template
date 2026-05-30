@@ -26,10 +26,12 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
+    // 改这里：n<=2000 才能 O(n^2)
     vector<ll> a(n + 1);
     for (int i = 1; i <= n; i++) cin >> a[i];
 
     ll best = LLONG_MIN / 4;
+    // 枚举所有区间 [l,r]
     for (int l = 1; l <= n; l++) {
         ll sum = 0;
         for (int r = l; r <= n; r++) {
@@ -37,6 +39,7 @@ int main() {
             best = max(best, sum);
         }
     }
+    // 改这里：输出最大值/最小值/计数
     cout << best << "\n";
     return 0;
 }

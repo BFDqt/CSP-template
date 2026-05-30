@@ -27,16 +27,18 @@ int main() {
 
     int q;
     if (!(cin >> q)) return 0;
+    // 改这里：命令数量 q
     string line;
-    getline(cin, line);
+    getline(cin, line); // 吃掉上一行换行
 
     int count_add = 0;
     for (int i = 0; i < q; i++) {
         getline(cin, line);
+        // 用 stringstream 拆分整行命令
         stringstream ss(line);
         string cmd; ss >> cmd;
         if (cmd == "add") count_add++;
-        // TODO: 按命令处理
+        // 改这里：按命令处理（分支/参数解析）
     }
     cout << count_add << "\n";
     return 0;

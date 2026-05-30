@@ -27,10 +27,12 @@ int main() {
 
     int n, m, q;
     if (!(cin >> n >> m >> q)) return 0;
+    // 改这里：矩阵大小和修改次数
     vector<vector<ll>> diff(n + 2, vector<ll>(m + 2, 0));
     while (q--) {
         int x1, y1, x2, y2; ll v;
         cin >> x1 >> y1 >> x2 >> y2 >> v;
+        // 二维差分：四角加减
         diff[x1][y1] += v;
         diff[x2 + 1][y1] -= v;
         diff[x1][y2 + 1] -= v;
@@ -38,6 +40,7 @@ int main() {
     }
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= m; j++) {
+            // 二维前缀还原
             diff[i][j] = diff[i][j] + diff[i - 1][j] + diff[i][j - 1] - diff[i - 1][j - 1];
             if (j > 1) cout << " ";
             cout << diff[i][j];

@@ -27,12 +27,14 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
+    // 改这里：行数 n
     string line;
-    getline(cin, line);
+    getline(cin, line); // 吃掉上一行的换行
 
     int count_lines = 0;
     for (int i = 0; i < n; i++) {
         getline(cin, line);
+        // 按空格拆分整行
         stringstream ss(line);
         string word;
         int num = 0;

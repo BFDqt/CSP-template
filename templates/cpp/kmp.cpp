@@ -23,6 +23,7 @@ using ll = long long;
 vector<int> build_next(const string &p) {
     int m = (int)p.size();
     vector<int> ne(m, 0);
+    // ne[i]：p[0..i] 的最长相等前后缀长度
     for (int i = 1, j = 0; i < m; i++) {
         while (j > 0 && p[i] != p[j]) j = ne[j - 1];
         if (p[i] == p[j]) j++;
@@ -37,18 +38,22 @@ int main() {
 
     string s, p;
     if (!(cin >> s >> p)) return 0;
+    // 改这里：s=文本，p=模式串
     auto ne = build_next(p);
     vector<int> pos;
     for (int i = 0, j = 0; i < (int)s.size(); i++) {
+        // 失配回退
         while (j > 0 && s[i] != p[j]) j = ne[j - 1];
         if (s[i] == p[j]) j++;
         if (j == (int)p.size()) {
+            // 找到一次匹配
             pos.push_back(i - (int)p.size() + 2); // 1-based
             j = ne[j - 1];
         }
     }
     for (int i = 0; i < (int)pos.size(); i++) {
         if (i) cout << " ";
+        // 改这里：输出 1-based 或 0-based
         cout << pos[i];
     }
     cout << "\n";

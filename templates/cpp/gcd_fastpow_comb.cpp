@@ -24,6 +24,7 @@ ll gcdll(ll a, ll b) { return b ? gcdll(b, a % b) : a; }
 ll lcmll(ll a, ll b) { return a / gcdll(a, b) * b; }
 
 ll modpow(ll a, ll e, ll mod) {
+    // 快速幂：a^e % mod
     ll r = 1 % mod;
     a %= mod;
     while (e > 0) {
@@ -41,12 +42,15 @@ struct Comb {
         mod = m;
         fact.assign(n + 1, 1);
         invfact.assign(n + 1, 1);
+        // 阶乘
         for (int i = 1; i <= n; i++) fact[i] = fact[i - 1] * i % mod;
+        // 费马逆元（要求 mod 为质数）
         invfact[n] = modpow(fact[n], mod - 2, mod);
         for (int i = n; i >= 1; i--) invfact[i - 1] = invfact[i] * i % mod;
     }
     ll C(int n, int k) {
         if (k < 0 || k > n) return 0;
+        // 组合数 C(n,k)
         return fact[n] * invfact[k] % mod * invfact[n - k] % mod;
     }
 };
@@ -58,6 +62,7 @@ int main() {
     int n, k;
     ll mod;
     if (!(cin >> n >> k >> mod)) return 0;
+    // 改这里：n 为上限，k 为选取数，mod 需为质数
     Comb comb;
     comb.init(n, mod);
     cout << comb.C(n, k) << "\n";

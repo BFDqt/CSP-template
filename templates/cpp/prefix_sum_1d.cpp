@@ -32,6 +32,8 @@ int main() {
 
     int n, q;
     if (!(cin >> n >> q)) return 0;
+    // 改这里：n 为数组长度，q 为查询数量
+    // pre[i] 表示 a[1..i] 的和
     vector<ll> pre(n + 1, 0);
     for (int i = 1; i <= n; i++) {
         ll x; cin >> x;
@@ -39,6 +41,7 @@ int main() {
     }
     while (q--) {
         int l, r; cin >> l >> r;
+        // 区间和 = 前缀差
         cout << pre[r] - pre[l - 1] << "\n";
     }
     return 0;

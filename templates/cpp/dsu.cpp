@@ -30,7 +30,9 @@ struct DSU {
         r.assign(n + 1, 0);
         iota(p.begin(), p.end(), 0);
     }
+    // 路径压缩
     int find(int x) { return p[x] == x ? x : p[x] = find(p[x]); }
+    // 按秩合并
     void unite(int a, int b) {
         a = find(a); b = find(b);
         if (a == b) return;
@@ -46,10 +48,12 @@ int main() {
 
     int n, q;
     if (!(cin >> n >> q)) return 0;
+    // 改这里：操作类型含义（1 合并 / 2 查询）
     DSU dsu(n);
     while (q--) {
         int op, a, b;
         cin >> op >> a >> b;
+        // op=1 合并，op=2 查询
         if (op == 1) dsu.unite(a, b);
         else cout << (dsu.find(a) == dsu.find(b) ? "YES" : "NO") << "\n";
     }

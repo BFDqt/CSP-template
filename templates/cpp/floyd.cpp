@@ -30,15 +30,19 @@ int main() {
 
     int n, m;
     if (!(cin >> n >> m)) return 0;
+    // 改这里：节点数量和边数量
     const ll INF = (1LL << 60);
+    // dist 初始化为 INF，自己到自己为 0
     vector<vector<ll>> dist(n + 1, vector<ll>(n + 1, INF));
     for (int i = 1; i <= n; i++) dist[i][i] = 0;
     for (int i = 0; i < m; i++) {
         int u, v; ll w;
         cin >> u >> v >> w;
+        // 可能有重边，取最小
         dist[u][v] = min(dist[u][v], w);
         dist[v][u] = min(dist[v][u], w);
     }
+    // 三重循环：枚举中转点 k
     for (int k = 1; k <= n; k++) {
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= n; j++) {
@@ -50,6 +54,7 @@ int main() {
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
             if (j > 1) cout << " ";
+            // 改这里：不可达的输出
             cout << dist[i][j];
         }
         cout << "\n";

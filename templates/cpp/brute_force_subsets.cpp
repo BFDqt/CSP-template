@@ -26,11 +26,13 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
+    // 改这里：n<=20 才能枚举
     vector<ll> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
 
     ll best = 0;
     int N = 1 << n;
+    // mask 的每一位表示是否选第 i 个元素
     for (int mask = 0; mask < N; mask++) {
         ll sum = 0;
         for (int i = 0; i < n; i++) {
@@ -38,6 +40,7 @@ int main() {
         }
         best = max(best, sum);
     }
+    // 改这里：输出最大值/计数/是否存在
     cout << best << "\n";
     return 0;
 }

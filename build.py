@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parent
 DOCS_DIR = ROOT / "docs"
 TEMPLATE_DIR = ROOT / "templates" / "cpp"
 OUTPUT_DIR = ROOT / "output"
+PDF_TITLE = "CSP 开卷速查与模板包"
 
 DOC_ORDER = [
     "00_exam_strategy.md",
@@ -106,12 +107,59 @@ def write_output(name: str, content: str) -> Path:
     return out_path
 
 
-def try_pandoc(md_path: Path) -> bool:
+def write_pdf_header(title: str) -> Path:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    header = (
+        "\\usepackage{xeCJK}\n"
+        "\\setCJKmainfont{SimSun}\n"
+        "\\setmonofont{Consolas}\n"
+        "\\usepackage{fancyhdr}\n"
+        "\\pagestyle{fancy}\n"
+        "\\fancyhf{}\n"
+        "\\lhead{\\leftmark}\n"
+        f"\\rhead{{{title}}}\n"
+        "\\cfoot{\\thepage}\n"
+        "\\setlength{\\headheight}{14pt}\n"
+    )
+    header_path = OUTPUT_DIR / "pandoc_header.tex"
+    header_path.write_text(header, encoding="utf-8")
+    return header_path
+
+
+def try_pandoc(md_path: Path, pdf_path: Path, title: str) -> bool:
     if not shutil.which("pandoc"):
         return False
-    pdf_path = md_path.with_suffix(".pdf")
-    subprocess.run(["pandoc", str(md_path), "-o", str(pdf_path)], check=False)
+    header_path = write_pdf_header(title)
+    subprocess.run(
+        [
+            "pandoc",
+            str(md_path),
+            "-o",
+            str(pdf_path),
+            "--pdf-engine=xelatex",
+            "--toc",
+            "--toc-depth=2",
+            "--metadata",
+            f"title:{title}",
+            "--metadata",
+            "toc-title:目录",
+            "-H",
+            str(header_path),
+        ],
+        check=False,
+    )
     return True
+
+
+def build_pdf(body: str, pdf_name: str, title: str) -> bool:
+    temp_md = write_output(f"{pdf_name}.pdf.md", body)
+    pdf_path = OUTPUT_DIR / f"{pdf_name}.pdf"
+    ok = try_pandoc(temp_md, pdf_path, title)
+    try:
+        temp_md.unlink()
+    except OSError:
+        pass
+    return ok
 
 
 def main() -> int:
@@ -129,12 +177,12 @@ def main() -> int:
     tpl_path = write_output("csp_openbook_code_templates.md", tpl_md)
 
     pdf_ok = False
-    pdf_ok = try_pandoc(full_path) or pdf_ok
-    pdf_ok = try_pandoc(quick_path) or pdf_ok
-    pdf_ok = try_pandoc(tpl_path) or pdf_ok
+    pdf_ok = build_pdf(full_body, "csp_openbook_full", PDF_TITLE) or pdf_ok
+    pdf_ok = build_pdf(quick_body, "csp_openbook_quick_cards", PDF_TITLE) or pdf_ok
+    pdf_ok = build_pdf(tpl_body, "csp_openbook_code_templates", PDF_TITLE) or pdf_ok
 
     if not pdf_ok:
-        print("未检测到 pandoc，已仅生成 Markdown。")
+        print("未检测到 pandoc 或 XeLaTeX，已仅生成 Markdown。")
 
     return 0
 

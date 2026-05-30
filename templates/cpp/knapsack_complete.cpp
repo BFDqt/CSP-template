@@ -27,14 +27,18 @@ int main() {
 
     int n, W;
     if (!(cin >> n >> W)) return 0;
+    // 改这里：物品数量 n、容量 W
     vector<ll> w(n), v(n);
     for (int i = 0; i < n; i++) cin >> w[i] >> v[i];
+    // dp[j] 表示容量为 j 的最大价值
     vector<ll> dp(W + 1, 0);
     for (int i = 0; i < n; i++) {
+        // 完全背包必须正序遍历容量
         for (int j = w[i]; j <= W; j++) {
             dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
         }
     }
+    // 改这里：输出 dp[W] 或最大值
     cout << dp[W] << "\n";
     return 0;
 }

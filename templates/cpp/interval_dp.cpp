@@ -26,20 +26,25 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
+    // 改这里：n 表示区间元素数量
     vector<ll> a(n + 1), pre(n + 1, 0);
     for (int i = 1; i <= n; i++) {
         cin >> a[i];
         pre[i] = pre[i - 1] + a[i];
     }
+    // sum(l,r) = 区间和，用于合并代价
     auto sum = [&](int l, int r) { return pre[r] - pre[l - 1]; };
 
     const ll INF = (1LL << 60);
     vector<vector<ll>> dp(n + 1, vector<ll>(n + 1, 0));
+    // 按区间长度递推
     for (int len = 2; len <= n; len++) {
         for (int l = 1; l + len - 1 <= n; l++) {
             int r = l + len - 1;
             dp[l][r] = INF;
+            // 枚举分割点 k
             for (int k = l; k < r; k++) {
+                // 改这里：合并代价可替换
                 dp[l][r] = min(dp[l][r], dp[l][k] + dp[k + 1][r] + sum(l, r));
             }
         }

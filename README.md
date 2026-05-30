@@ -6,7 +6,12 @@
 1. 在仓库根目录运行构建脚本：
    - `python build.py`
 
-脚本会生成三份合并版 Markdown（在 output/），若检测到 `pandoc` 则自动生成 PDF。
+脚本会生成三份合并版 Markdown（在 output/）。若检测到 `pandoc` + XeLaTeX，则自动生成带页码目录的 PDF。
+
+PDF 依赖（Windows 推荐）：
+- 安装 Pandoc
+- 安装 TeX 发行版（MiKTeX/TeX Live），确保 `xelatex` 可用
+- 系统有中文字体（默认使用 SimSun）与等宽字体（Consolas）
 
 ## 输出产物
 - output/csp_openbook_full.md

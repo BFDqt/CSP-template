@@ -33,22 +33,28 @@ int main() {
 
     int n, m, s;
     if (!(cin >> n >> m >> s)) return 0;
+    // 改这里：起点 s
     vector<vector<Edge>> g(n + 1);
     for (int i = 0; i < m; i++) {
         int u, v; ll w;
         cin >> u >> v >> w;
+        // 无向图：双向加边，有向图则删掉一行
         g[u].push_back({v, w});
         g[v].push_back({u, w});
     }
     const ll INF = (1LL << 60);
+    // dist 初始化为无穷大
     vector<ll> dist(n + 1, INF);
+    // 小根堆：每次取当前距离最小的点
     priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<pair<ll,int>>> pq;
     dist[s] = 0;
     pq.push({0, s});
     while (!pq.empty()) {
         auto [d, u] = pq.top(); pq.pop();
+        // 过期的堆元素跳过
         if (d != dist[u]) continue;
         for (auto &e : g[u]) {
+            // 松弛操作
             if (dist[e.to] > dist[u] + e.w) {
                 dist[e.to] = dist[u] + e.w;
                 pq.push({dist[e.to], e.to});
@@ -57,6 +63,7 @@ int main() {
     }
     for (int i = 1; i <= n; i++) {
         if (i > 1) cout << " ";
+        // 改这里：不可达时输出什么
         cout << (dist[i] >= INF/2 ? -1 : dist[i]);
     }
     cout << "\n";

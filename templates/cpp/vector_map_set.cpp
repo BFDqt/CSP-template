@@ -29,12 +29,15 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
+    // 改这里：读入的元素类型/数量
     vector<ll> a(n);
     for (int i = 0; i < n; i++) cin >> a[i];
 
+    // 用 map 统计频次，map 会自动按 key 升序
     map<ll, ll> cnt;
     for (ll x : a) cnt[x]++;
 
+    // 按 key 有序输出
     for (auto &kv : cnt) {
         cout << kv.first << " " << kv.second << "\n";
     }
